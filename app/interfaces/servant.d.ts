@@ -4,8 +4,8 @@ interface Servant {
   className: string
   rarity: number
   cost: number
-  ascension: Ascension
-  face: Ascension
+  ascension: Ascension[]
+  face: Ascension[]
   gender: string
   attribute: string
   traits: Traits[]
@@ -17,15 +17,15 @@ interface Servant {
   hpBase: number
   hpMax: number
   bondGrowth: number[]
-  ascensionMaterials: AscensionMaterial[]
   skills: Skills[]
 }
 
 interface Ascension {
-  [1]: string
-  [2]: string
-  [3]: string
-  [4]: string
+  [0]?: string
+  first: string
+  second: string
+  third: string
+  fourth: string
 }
 
 interface Traits {

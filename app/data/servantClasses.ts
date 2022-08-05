@@ -52,7 +52,7 @@ export const servantClasses: ServantClasses[] = [
   {
     name: 'Shielder',
     icon: Shielder,
-    param: 'shieledr',
+    param: 'shielder',
   },
   {
     name: 'Ruler',

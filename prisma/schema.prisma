@@ -1,0 +1,91 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Servant {
+  id        Int @id @default(autoincrement())
+  name     String
+  className   String
+  rarity   Int
+  cost    Int
+  ascension   Ascension[]
+  face   Face[]
+  gender  String
+  attribute  String
+  traits  Traits[]
+  starAbsorb   Int
+  starGen  Int
+  cards   String[]
+  atkBase  Int
+  atkMax  Int
+  hpBase Int
+  hpMax  Int
+  bondGrowth  Int[]
+  ascensionMaterials AscensionMaterial[]
+  skills  Skills[]
+}
+
+
+model Ascension {
+  id        Int @id @default(autoincrement())
+  first String
+  second String
+  third String
+  fourth String
+  servant Servant @relation(fields: [servantId], references: [id])
+  servantId  Int 
+}
+
+model Face {
+  id        Int @id @default(autoincrement())
+  first String
+  second String
+  third String
+  fourth String
+  servant Servant @relation(fields: [servantId], references: [id])
+  servantId  Int 
+}
+
+model Traits {
+  id        Int @id @default(autoincrement())
+  name    String
+  servant Servant @relation(fields: [servantId], references: [id])
+  servantId Int @unique
+}
+
+model AscensionMaterial {
+  id        Int @id @default(autoincrement())
+  item Item?
+  amount Int
+  qp Int
+  servant Servant @relation(fields: [servantId], references: [id])
+  servantId Int 
+}
+
+model Item {
+  id        Int @id @default(autoincrement())
+  name    String
+  icon    String
+  ascensionMaterials AscensionMaterial @relation(fields: [ascensionId], references: [id])
+  ascensionId Int @unique
+}
+
+model Skills {
+  id        Int @id @default(autoincrement())
+  num    Int
+  name    String
+  detail    String
+  type    String
+  icon    String
+  coolDown    Int[]
+  servant Servant @relation(fields: [servantId], references: [id])
+  servantId Int 
+}	

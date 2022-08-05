@@ -6,11 +6,8 @@ export const servantMapper = (servants: ServantResponse[]): Servant[] => {
       className: servant.className,
       rarity: servant.rarity,
       cost: servant.cost,
-      ascension: servant.extraAssets.charaGraph.ascension,
-      face: servant.extraAssets.faces.ascension,
       gender: servant.gender,
       attribute: servant.attribute,
-      traits: servant.traits,
       starAbsorb: servant.starAbsorb,
       starGen: servant.starGen,
       cards: servant.cards,
@@ -19,33 +16,60 @@ export const servantMapper = (servants: ServantResponse[]): Servant[] => {
       hpBase: servant.hpBase,
       hpMax: servant.hpMax,
       bondGrowth: servant.bondGrowth,
-      ascensionMaterials: mapAscensionMaterials(servant.ascensionMaterials),
-      skills: mapSkills(servant.skills),
     }
   })
 }
 
-const mapAscensionMaterials = (
-  ascensionMaterials: AscensionMaterialResponse
-) => {
-  if (!ascensionMaterials.items) return []
-  return new Array(4).fill(null).map((_, i) => {
+export const mapAscension = (servants: ServantResponse[]) => {
+  return servants.map((servant) => {
     return {
-      item: {
-        id: ascensionMaterials[i].items[0].item.id,
-        name: ascensionMaterials[i].items[0].item.name,
-        icon: ascensionMaterials[i].items[0].item.icon,
-      },
-      amount: ascensionMaterials[i].items[0].amount,
-      qp: ascensionMaterials[i].qp,
+      servantId: servant.id,
+      first:
+        servant.extraAssets.charaGraph.ascension[0] ||
+        servant.extraAssets.charaGraph.ascension[1],
+      second:
+        servant.extraAssets.charaGraph.ascension[0] ||
+        servant.extraAssets.charaGraph.ascension[2],
+      third:
+        servant.extraAssets.charaGraph.ascension[0] ||
+        servant.extraAssets.charaGraph.ascension[3],
+      fourth:
+        servant.extraAssets.charaGraph.ascension[0] ||
+        servant.extraAssets.charaGraph.ascension[4],
     }
   })
 }
 
-const mapSkills = (skills: Skills[]) => {
+export const mapFace = (servants: ServantResponse[]) => {
+  return servants.map((servant) => {
+    return {
+      servantId: servant.id,
+      first:
+        servant.extraAssets.faces.ascension[0] ||
+        servant.extraAssets.faces.ascension[1],
+      second:
+        servant.extraAssets.faces.ascension[0] ||
+        servant.extraAssets.faces.ascension[2],
+      third:
+        servant.extraAssets.faces.ascension[0] ||
+        servant.extraAssets.faces.ascension[3],
+      fourth:
+        servant.extraAssets.faces.ascension[0] ||
+        servant.extraAssets.faces.ascension[4],
+    }
+  })
+}
+
+export const mapServantSkills = (servants: ServantResponse[]) => {
+  return servants.map((servant) => {
+    return mapSkills(servant.skills, servant.id)
+  })
+}
+
+export const mapSkills = (skills: Skills[], id: number) => {
   return skills.map((skill) => {
     return {
-      id: skill.id,
+      servantId: id,
       num: skill.num,
       name: skill.name,
       detail: skill.detail,
