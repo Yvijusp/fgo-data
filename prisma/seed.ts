@@ -1,49 +1,49 @@
-// import {
-//   mapAscension,
-//   mapFace,
-//   mapServantSkills,
-//   servantMapper,
-// } from './../app/utils/mapper'
-// import { PrismaClient } from '@prisma/client'
-// import servants from '../app/data/nice_servant_lang_en.json'
+import {
+  mapAscension,
+  mapFace,
+  mapServantSkills,
+  servantMapper,
+} from './../app/utils/mapper'
+import { PrismaClient } from '@prisma/client'
+import servants from '../app/data/nice_servant_lang_en.json'
 
-// const prisma = new PrismaClient()
+const prisma = new PrismaClient()
 
-// const seedServants = async () => {
-//   const mapped = servantMapper(servants)
-//   await prisma.servant.createMany({ data: mapped })
-// }
+const servantResponse = servants as ServantResponse[]
 
-// const seedAscension = async () => {
-//   const mapped = mapAscension(servants)
+const seedServants = async () => {
+  const mapped = servantMapper(servantResponse)
+  await prisma.servant.createMany({ data: mapped })
+}
 
-//   for (let data of mapped) {
-//     await prisma.ascension.createMany({ data })
-//   }
-// }
+const seedAscension = async () => {
+  const mapped = mapAscension(servantResponse)
 
-// const seedFaces = async () => {
-//   const mapped = mapFace(servants)
+  for (let data of mapped) {
+    await prisma.ascension.createMany({ data })
+  }
+}
 
-//   for (let data of mapped) {
-//     await prisma.face.createMany({ data })
-//   }
-// }
+const seedFaces = async () => {
+  const mapped = mapFace(servantResponse)
 
-// const seedSkills = async () => {
-//   const mapped = mapServantSkills(servants)
-//   for (let data of mapped) {
-//     await prisma.skills.createMany({ data })
-//   }
-// }
+  for (let data of mapped) {
+    await prisma.face.createMany({ data })
+  }
+}
 
-// const seed = async () => {
-//   await seedServants()
-//   await seedAscension()
-//   await seedFaces()
-//   await seedSkills()
-// }
+const seedSkills = async () => {
+  const mapped = mapServantSkills(servantResponse)
+  for (let data of mapped) {
+    await prisma.skills.createMany({ data })
+  }
+}
 
-// seed()
+const seed = async () => {
+  await seedServants()
+  await seedAscension()
+  await seedFaces()
+  await seedSkills()
+}
 
-export {}
+seed()
