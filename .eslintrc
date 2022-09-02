@@ -1,3 +1,11 @@
 {
-  "extends": ["@remix-run/eslint-config", "@remix-run/eslint-config/node"]
+  "extends": ["@remix-run/eslint-config", "@remix-run/eslint-config/node"],
+  "overrides": [
+    {
+      "files": ["./app/routes/servants/$classes/*.tsx"],
+      "rules": {
+        "react-hooks/exhaustive-deps": "off"
+      }
+    }
+  ]
 }

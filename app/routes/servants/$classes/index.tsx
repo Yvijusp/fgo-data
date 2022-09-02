@@ -6,6 +6,8 @@ import {
   useNavigate,
   useSubmit,
 } from '@remix-run/react'
+import { debounce } from 'lodash'
+import { useCallback } from 'react'
 import Servants from '~/components/Servants'
 import { db } from '~/utils/db.server'
 
@@ -49,14 +51,33 @@ export default function Classes() {
   const filteredServant = useActionData<Servant[]>()
   const navigate = useNavigate()
 
+  const debouncedSubmit = useCallback(
+    debounce((value) => submit(value), 300),
+    [submit]
+  )
+
+  const handleChange = (e: React.FormEvent<HTMLFormElement>) => {
+    debouncedSubmit(e.currentTarget)
+  }
+
   return (
     <div>
-      <button onClick={() => navigate('/servants', { replace: true })}>
-        Back
-      </button>
-      <Form method='post' onChange={(e) => submit(e.currentTarget)}>
-        <input type='text' name='servantFilter' />
-      </Form>
+      <div className='flex gap-4'>
+        <button
+          className='btn btn-primary btn-sm'
+          onClick={() => navigate('/servants', { replace: true })}
+        >
+          Back
+        </button>
+        <Form method='post' onChange={handleChange}>
+          <input
+            className='input input-sm input-primary'
+            type='text'
+            placeholder='Search Servant'
+            name='servantFilter'
+          />
+        </Form>
+      </div>
       {<Servants servants={filteredServant || servants} />}
     </div>
   )

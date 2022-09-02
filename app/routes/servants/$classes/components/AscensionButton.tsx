@@ -4,20 +4,21 @@ export default function AscensionButton({
   onClick,
   ascension,
   value,
+  isActive,
 }: AscensionButtonProps) {
   return (
-    <>
-      <button
-        value={value[ascension.stage as keyof typeof value]}
-        name='image'
-        onClick={onClick}
-        type='submit'
-        data-stage={ascension.stage}
-        className='w-10  border-2 border-blue-600'
-      >
-        {ascension.display}
-      </button>
-    </>
+    <button
+      value={value[ascension.stage as keyof typeof value]}
+      name='image'
+      onClick={onClick}
+      type='submit'
+      data-stage={ascension.stage}
+      className={`tab text-secondary tab-bordered ${
+        isActive ? 'tab-active' : ''
+      }`}
+    >
+      {ascension.display}
+    </button>
   )
 }
 
@@ -31,4 +32,5 @@ interface AscensionButtonProps {
     fourth: string
     0?: string | undefined
   }
+  isActive: boolean
 }

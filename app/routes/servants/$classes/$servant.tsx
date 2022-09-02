@@ -7,6 +7,13 @@ import AscensionButton from './components/AscensionButton'
 import { saveImageToFs } from '~/utils/saveImageToFs'
 import { updateAscension } from '~/utils/updateAscension'
 
+enum AscensionLevel {
+  FIRST = 'first',
+  SECOND = 'second',
+  THIRD = 'third',
+  FOURTH = 'fourth',
+}
+
 export const action: ActionFunction = async ({ params, request }) => {
   const formData = await request.formData()
   const file = formData.get('image') as string
@@ -35,7 +42,9 @@ export const loader: LoaderFunction = async ({ params }) => {
 export default function Servant() {
   const servant = useLoaderData<Servant>()
   const [ascension, setAscension] = useState<string>(servant.ascension[0].first)
-  const [ascensionStage, setAscensionStage] = useState<number>(1)
+  const [ascensionStage, setAscensionStage] = useState<AscensionLevel>(
+    AscensionLevel.FIRST
+  )
   const navigate = useNavigate()
   const { classes } = useParams()
 
@@ -44,37 +53,43 @@ export default function Servant() {
     setAscensionStage(e.target.attributes['data-stage'].value)
   }
 
+  console.log(ascensionStage)
+
   return (
     <div>
       <button
+        className='btn btn-primary btn-sm'
         onClick={() => navigate(`/servants/${classes}`, { replace: true })}
       >
         Back
       </button>
       <h1>{servant.name}</h1>
       <h2 className='capitalize'>{servant.className}</h2>
-      <Form method='post'>
-        <div className='flex gap-1 ml-2'>
-          {servantAscenscionLevel.map((asc, i) => (
-            <AscensionButton
-              key={i}
-              ascension={asc}
-              value={servant.ascension[0]}
-              onClick={handleAscensionChange}
-            />
-          ))}
-        </div>
-        <input
-          value={`${servant.name}_${servant.id}_${ascensionStage}`
-            .toLowerCase()
-            .split(' ')
-            .join('_')}
-          name='servantName'
-          type='hidden'
-        />
-        <input type='hidden' name='stage' value={ascensionStage} />
-        <img src={ascension} alt={servant.name} />
-      </Form>
+      <div className='flex flex-col items-center'>
+        <Form method='post'>
+          <div className='tabs-boxed bg-inherit'>
+            {servantAscenscionLevel.map((asc, i) => (
+              <AscensionButton
+                key={i}
+                ascension={asc}
+                isActive={getActiveTab(ascensionStage) === i + 1}
+                value={servant.ascension[0]}
+                onClick={handleAscensionChange}
+              />
+            ))}
+          </div>
+          <input
+            value={`${servant.name}_${servant.id}_${ascensionStage}`
+              .toLowerCase()
+              .split(' ')
+              .join('_')}
+            name='servantName'
+            type='hidden'
+          />
+          <input type='hidden' name='stage' value={ascensionStage} />
+          <img src={ascension} alt={servant.name} />
+        </Form>
+      </div>
 
       <div>
         <h3>Skills</h3>
@@ -90,9 +105,22 @@ export default function Servant() {
   )
 }
 
+function getActiveTab(type: AscensionLevel) {
+  switch (type) {
+    case AscensionLevel.FIRST:
+      return 1
+    case AscensionLevel.SECOND:
+      return 2
+    case AscensionLevel.THIRD:
+      return 3
+    case AscensionLevel.FOURTH:
+      return 4
+  }
+}
+
 const servantAscenscionLevel = [
-  { stage: 'first', display: 1 },
-  { stage: 'second', display: 2 },
-  { stage: 'third', display: 3 },
-  { stage: 'fourth', display: 4 },
+  { stage: AscensionLevel.FIRST, display: 1 },
+  { stage: AscensionLevel.SECOND, display: 2 },
+  { stage: AscensionLevel.THIRD, display: 3 },
+  { stage: AscensionLevel.FOURTH, display: 4 },
 ]
