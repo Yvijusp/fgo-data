@@ -10,8 +10,62 @@ import Ruler from '../../public/images/ruler.png'
 import Avenger from '../../public/images/avenger.png'
 import MoonCancer from '../../public/images/moon_cancer.png'
 import Foreigner from '../../public/images/foreigner.png'
-import Pretender from '../../public/images/pretender.png'
+// import Pretender from '../../public/images/pretender.png
 import AlterEgo from '../../public/images/alter_ego.png'
+
+export const ServantClassIcon = ({
+  servantClass,
+  className,
+}: {
+  servantClass: ServantClass
+  className?: string
+}) => {
+  let icon: string | undefined
+  switch (servantClass) {
+    case 'saber':
+      icon = Saber
+      break
+    case 'archer':
+      icon = Archer
+      break
+    case 'lancer':
+      icon = Lancer
+      break
+    case 'rider':
+      icon = Rider
+      break
+    case 'caster':
+      icon = Caster
+      break
+    case 'assassin':
+      icon = Assassin
+      break
+    case 'berserker':
+      icon = Berserker
+      break
+    case 'shielder':
+      icon = Shielder
+      break
+    case 'ruler':
+      icon = Ruler
+      break
+    case 'avenger':
+      icon = Avenger
+      break
+    case 'moonCancer':
+      icon = MoonCancer
+      break
+    case 'foreigner':
+      icon = Foreigner
+      break
+    // case 'Pretender':
+    // return Pretender
+    default:
+      icon = undefined
+  }
+
+  return <img className={className} src={icon} alt={servantClass} />
+}
 
 export const servantClasses: ServantClasses[] = [
   {
@@ -79,11 +133,11 @@ export const servantClasses: ServantClasses[] = [
     icon: Foreigner,
     param: 'foreigner',
   },
-  {
-    name: 'Pretender',
-    icon: Pretender,
-    param: 'pretender',
-  },
+  // {
+  //   name: 'Pretender',
+  //   icon: Pretender,
+  //   param: 'pretender',
+  // },
 ]
 
 interface ServantClasses {

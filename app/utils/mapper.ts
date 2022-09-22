@@ -1,4 +1,4 @@
-export const servantMapper = (servants: ServantResponse[]): Servant[] => {
+export const servantMapper = (servants: ServantResponse[]) => {
   return servants.map((servant) => {
     return {
       id: servant.id,
@@ -36,6 +36,17 @@ export const mapAscension = (servants: ServantResponse[]) => {
       fourth:
         servant.extraAssets.charaGraph.ascension[0] ||
         servant.extraAssets.charaGraph.ascension[4],
+    }
+  })
+}
+
+export const mapCommands = (servants: ServantResponse[]) => {
+  return servants.map((servant) => {
+    return {
+      servantId: servant.id,
+      first: servant.extraAssets.commands?.ascension?.[1] || 'empty',
+      second: servant.extraAssets.commands?.ascension?.[2] || 'empty',
+      third: servant.extraAssets.commands?.ascension?.[3] || 'empty',
     }
   })
 }

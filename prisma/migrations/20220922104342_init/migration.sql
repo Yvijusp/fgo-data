@@ -86,6 +86,17 @@ CREATE TABLE "Skills" (
     CONSTRAINT "Skills_pkey" PRIMARY KEY ("id")
 );
 
+-- CreateTable
+CREATE TABLE "Commands" (
+    "id" SERIAL NOT NULL,
+    "first" TEXT NOT NULL,
+    "second" TEXT NOT NULL,
+    "third" TEXT NOT NULL,
+    "servantId" INTEGER NOT NULL,
+
+    CONSTRAINT "Commands_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "Traits_servantId_key" ON "Traits"("servantId");
 
@@ -109,3 +120,6 @@ ALTER TABLE "Item" ADD CONSTRAINT "Item_ascensionId_fkey" FOREIGN KEY ("ascensio
 
 -- AddForeignKey
 ALTER TABLE "Skills" ADD CONSTRAINT "Skills_servantId_fkey" FOREIGN KEY ("servantId") REFERENCES "Servant"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Commands" ADD CONSTRAINT "Commands_servantId_fkey" FOREIGN KEY ("servantId") REFERENCES "Servant"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

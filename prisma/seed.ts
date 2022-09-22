@@ -1,5 +1,6 @@
 import {
   mapAscension,
+  mapCommands,
   mapFace,
   mapServantSkills,
   servantMapper,
@@ -39,11 +40,19 @@ const seedSkills = async () => {
   }
 }
 
+const seedCommands = async () => {
+  const mapped = mapCommands(servantResponse)
+  for (let data of mapped) {
+    await prisma.commands.createMany({ data })
+  }
+}
+
 const seed = async () => {
   await seedServants()
   await seedAscension()
   await seedFaces()
   await seedSkills()
+  await seedCommands()
 }
 
 seed()

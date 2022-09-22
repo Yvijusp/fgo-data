@@ -6,6 +6,8 @@ import { db } from '~/utils/db.server'
 import AscensionButton from './components/AscensionButton'
 import { saveImageToFs } from '~/utils/saveImageToFs'
 import { updateAscension } from '~/utils/updateAscension'
+import { ServantClassIcon } from '~/data/servantClasses'
+import ServantInfoTable from './components/ServantInfoTable'
 
 enum AscensionLevel {
   FIRST = 'first',
@@ -33,6 +35,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     include: {
       skills: true,
       ascension: true,
+      commands: true,
     },
   })
 
@@ -53,8 +56,6 @@ export default function Servant() {
     setAscensionStage(e.target.attributes['data-stage'].value)
   }
 
-  console.log(ascensionStage)
-
   return (
     <div>
       <button
@@ -63,43 +64,53 @@ export default function Servant() {
       >
         Back
       </button>
-      <h1>{servant.name}</h1>
-      <h2 className='capitalize'>{servant.className}</h2>
-      <div className='flex flex-col items-center'>
-        <Form method='post'>
-          <div className='tabs-boxed bg-inherit'>
-            {servantAscenscionLevel.map((asc, i) => (
-              <AscensionButton
-                key={i}
-                ascension={asc}
-                isActive={getActiveTab(ascensionStage) === i + 1}
-                value={servant.ascension[0]}
-                onClick={handleAscensionChange}
-              />
-            ))}
-          </div>
-          <input
-            value={`${servant.name}_${servant.id}_${ascensionStage}`
-              .toLowerCase()
-              .split(' ')
-              .join('_')}
-            name='servantName'
-            type='hidden'
-          />
-          <input type='hidden' name='stage' value={ascensionStage} />
-          <img src={ascension} alt={servant.name} />
-        </Form>
+      <div className='mt-5 mb-3 py-3 flex gap-2 items-center border-t-[1px] border-primary'>
+        <ServantClassIcon className='w-12' servantClass={servant.className} />
+        <h1 className='text-3xl font-bold'>{servant.name}</h1>
       </div>
-
-      <div>
-        <h3>Skills</h3>
-        {servant.skills.map((skill, i) => (
-          <div key={i}>
-            <span>{skill.name}</span>
-            <img src={skill.icon} alt={skill.name} />
-            <p>{skill.detail}</p>
+      <div className='flex flex-col justify-center items-center'>
+        <div className='flex items-center gap-6'>
+          <div className='flex flex-col mb-auto'>
+            <ServantInfoTable servant={servant} />
           </div>
-        ))}
+
+          <div>
+            <Form method='post'>
+              <div className='tabs-boxed bg-inherit'>
+                {servantAscenscionLevel.map((asc, i) => (
+                  <AscensionButton
+                    key={i}
+                    ascension={asc}
+                    isActive={getActiveTab(ascensionStage) === i + 1}
+                    value={servant.ascension[0]}
+                    onClick={handleAscensionChange}
+                  />
+                ))}
+              </div>
+              <input
+                value={`${servant.name}_${servant.id}_${ascensionStage}`
+                  .toLowerCase()
+                  .split(' ')
+                  .join('_')}
+                name='servantName'
+                type='hidden'
+              />
+              <input type='hidden' name='stage' value={ascensionStage} />
+              <img src={ascension} alt={servant.name} />
+            </Form>
+          </div>
+        </div>
+
+        <div>
+          <h3>Skills</h3>
+          {servant.skills.map((skill, i) => (
+            <div key={i}>
+              <span>{skill.name}</span>
+              <img src={skill.icon} alt={skill.name} />
+              <p>{skill.detail}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )

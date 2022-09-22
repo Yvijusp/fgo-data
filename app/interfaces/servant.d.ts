@@ -1,7 +1,7 @@
 interface Servant {
   id: number
   name: string
-  className: string
+  className: ServantClass
   rarity: number
   cost: number
   ascension: Ascension[]
@@ -18,7 +18,23 @@ interface Servant {
   hpMax: number
   bondGrowth: number[]
   skills: Skills[]
+  commands: Commands[]
 }
+
+type ServantClass =
+  | 'saber'
+  | 'archer'
+  | 'lancer'
+  | 'rider'
+  | 'caster'
+  | 'assassin'
+  | 'berserker'
+  | 'shielder'
+  | 'ruler'
+  | 'avenger'
+  | 'moonCancer'
+  | 'foreigner'
+  | 'pretender'
 
 interface Ascension {
   [0]?: string
@@ -26,6 +42,13 @@ interface Ascension {
   second: string
   third: string
   fourth: string
+}
+
+interface Commands {
+  id: string
+  first: string
+  second: string
+  third: string
 }
 
 interface Traits {

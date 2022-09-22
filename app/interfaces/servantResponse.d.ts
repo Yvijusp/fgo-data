@@ -6,11 +6,12 @@ interface ServantResponse {
   cost: number
   extraAssets: {
     charaGraph: {
-      ascension: Ascension
+      ascension: AscensionResponse
     }
     faces: {
-      ascension: Ascension
+      ascension: AscensionResponse
     }
+    commands: CommandsResponse
   }
   gender: string
   attribute: string
@@ -32,4 +33,25 @@ interface AscensionMaterialResponse {
     items: [item: AscensionMaterial, amount: number]
     qp: number
   }
+}
+
+interface CommandsResponse {
+  ascension: AscensionResponse
+  costume: CostumeResponse
+}
+
+interface AscensionResponse {
+  [0]?: string
+  [1]: string
+  [2]: string
+  [3]: string
+  [4]: string
+}
+
+interface CostumeResponse {
+  [0]?: string
+  [1]?: string
+  [2]?: string
+  [3]?: string
+  [4]?: string
 }
