@@ -16,6 +16,7 @@ export default function AscensionButton({
       className={`tab text-secondary tab-bordered ${
         isActive ? 'tab-active' : ''
       }`}
+      disabled={isActive}
     >
       {ascension.display}
     </button>

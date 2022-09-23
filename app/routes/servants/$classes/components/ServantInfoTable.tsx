@@ -1,7 +1,11 @@
+import { AscensionLevel } from '../$servant'
 import CommandCard from './CommandCard'
 import ServantTableItem from './ServantTableItem'
 
-export default function ServantInfoTable({ servant }: ServantInfoTableProps) {
+export default function ServantInfoTable({
+  servant,
+  ascensionStage,
+}: ServantInfoTableProps) {
   return (
     <table className='table border border-primary'>
       <tbody>
@@ -39,7 +43,7 @@ export default function ServantInfoTable({ servant }: ServantInfoTableProps) {
           item={[
             {
               title: 'Deck',
-              value: servantDeck(servant),
+              value: servantDeck(servant, ascensionStage),
             },
           ]}
           colSpan={3}
@@ -55,13 +59,19 @@ export default function ServantInfoTable({ servant }: ServantInfoTableProps) {
   )
 }
 
-function servantDeck(servant: Servant) {
+function servantDeck(servant: Servant, ascensionStage: AscensionLevel) {
   return servant.cards.map((card) => {
     return servant.commands.map((command) => (
       <CommandCard
         card={card}
         key={command.id}
-        servantImage={command.first}
+        servantImage={
+          command[
+            ascensionStage !== AscensionLevel.FOURTH
+              ? ascensionStage
+              : AscensionLevel.THIRD
+          ]
+        }
         servantName={servant.name}
       />
     ))
@@ -70,4 +80,5 @@ function servantDeck(servant: Servant) {
 
 interface ServantInfoTableProps {
   servant: Servant
+  asenscionStage: AscensionLevel
 }

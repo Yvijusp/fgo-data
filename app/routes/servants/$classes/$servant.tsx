@@ -8,8 +8,9 @@ import { saveImageToFs } from '~/utils/saveImageToFs'
 import { updateAscension } from '~/utils/updateAscension'
 import { ServantClassIcon } from '~/data/servantClasses'
 import ServantInfoTable from './components/ServantInfoTable'
+import SkillsSection from './components/SkillsSection'
 
-enum AscensionLevel {
+export enum AscensionLevel {
   FIRST = 'first',
   SECOND = 'second',
   THIRD = 'third',
@@ -57,21 +58,24 @@ export default function Servant() {
   }
 
   return (
-    <div>
+    <div className='py-4'>
       <button
         className='btn btn-primary btn-sm'
         onClick={() => navigate(`/servants/${classes}`, { replace: true })}
       >
         Back
       </button>
-      <div className='mt-5 mb-3 py-3 flex gap-2 items-center border-t-[1px] border-primary'>
+      <div className='mt-5 mb-3 py-3 px-80 flex gap-2 items-center border-t-[1px] border-primary'>
         <ServantClassIcon className='w-12' servantClass={servant.className} />
         <h1 className='text-3xl font-bold'>{servant.name}</h1>
       </div>
       <div className='flex flex-col justify-center items-center'>
         <div className='flex items-center gap-6'>
           <div className='flex flex-col mb-auto'>
-            <ServantInfoTable servant={servant} />
+            <ServantInfoTable
+              servant={servant}
+              ascensionStage={ascensionStage}
+            />
           </div>
 
           <div>
@@ -101,16 +105,7 @@ export default function Servant() {
           </div>
         </div>
 
-        <div>
-          <h3>Skills</h3>
-          {servant.skills.map((skill, i) => (
-            <div key={i}>
-              <span>{skill.name}</span>
-              <img src={skill.icon} alt={skill.name} />
-              <p>{skill.detail}</p>
-            </div>
-          ))}
-        </div>
+        <SkillsSection servant={servant} />
       </div>
     </div>
   )
