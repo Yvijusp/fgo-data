@@ -80,5 +80,5 @@ function servantDeck(servant: Servant, ascensionStage: AscensionLevel) {
 
 interface ServantInfoTableProps {
   servant: Servant
-  asenscionStage: AscensionLevel
+  ascensionStage: AscensionLevel
 }
