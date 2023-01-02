@@ -1,6 +1,6 @@
 import { Theme, useTheme } from '~/utils/themeProvider'
 import { MdDarkMode, MdLightMode } from 'react-icons/md/index'
-import { Link } from 'react-router-dom'
+import { Link } from '@remix-run/react'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useTheme()
