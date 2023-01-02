@@ -18,7 +18,7 @@ import { getThemeSession } from './utils/theme.server'
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
-  title: 'New Remix App',
+  title: 'FGO',
   viewport: 'width=device-width,initial-scale=1',
 })
 

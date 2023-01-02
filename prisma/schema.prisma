@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Servant {
-  id        Int @id @default(autoincrement())
+  id        Int @id @unique @default(autoincrement())
   name     String
   className   String
   rarity   Int
@@ -36,7 +36,7 @@ model Servant {
 
 
 model Ascension {
-  id        Int @id @default(autoincrement())
+  id        Int @id @unique @default(autoincrement())
   first String
   second String
   third String
@@ -46,7 +46,7 @@ model Ascension {
 }
 
 model Face {
-  id        Int @id @default(autoincrement())
+  id        Int @id @unique @default(autoincrement())
   first String
   second String
   third String
@@ -56,14 +56,14 @@ model Face {
 }
 
 model Traits {
-  id        Int @id @default(autoincrement())
+  id        Int @id @unique @default(autoincrement())
   name    String
   servant Servant @relation(fields: [servantId], references: [id])
   servantId Int @unique
 }
 
 model AscensionMaterial {
-  id        Int @id @default(autoincrement())
+  id        Int @id @unique @default(autoincrement())
   item Item?
   amount Int
   qp Int
@@ -72,7 +72,7 @@ model AscensionMaterial {
 }
 
 model Item {
-  id        Int @id @default(autoincrement())
+  id        Int @id @unique @default(autoincrement())
   name    String
   icon    String
   ascensionMaterials AscensionMaterial @relation(fields: [ascensionId], references: [id])
@@ -80,7 +80,7 @@ model Item {
 }
 
 model Skills {
-  id        Int @id @default(autoincrement())
+  id        Int @id @unique @default(autoincrement())
   num    Int
   name    String
   detail    String
@@ -91,7 +91,7 @@ model Skills {
   servantId Int 
 }	
 model Commands {
-  id       Int @id @default(autoincrement())
+  id       Int @id @unique @default(autoincrement())
   first String
   second String
   third String

@@ -2,7 +2,6 @@ export const servantMapper = (servants: ServantResponse[]) => {
   return servants
     .filter((ser) => ser.id !== 9935530)
     .map((servant) => {
-      if (servant.id === 9935530) return null
       return {
         id: servant.id,
         name: servant.name,
