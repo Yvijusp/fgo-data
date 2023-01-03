@@ -5,25 +5,21 @@ import {
   mapServantSkills,
   servantMapper,
 } from './../app/utils/mapper'
-import { PrismaClient } from '@prisma/client'
 import servants from '../app/data/nice_servant.json'
-
-const prisma = new PrismaClient()
+import { db } from '~/utils/db.server'
 
 const servantResponse = servants as ServantResponse[]
 
 const seedServants = async () => {
   const mapped = servantMapper(servantResponse)
-  await prisma.servant.createMany({ data: mapped, skipDuplicates: true })
-  await prisma.$disconnect()
+  await db.servant.createMany({ data: mapped, skipDuplicates: true })
 }
 
 const seedAscension = async () => {
   const mapped = mapAscension(servantResponse)
 
   for (let data of mapped) {
-    await prisma.ascension.createMany({ data, skipDuplicates: true })
-    await prisma.$disconnect()
+    await db.ascension.createMany({ data, skipDuplicates: true })
   }
 }
 
@@ -31,24 +27,21 @@ const seedFaces = async () => {
   const mapped = mapFace(servantResponse)
 
   for (let data of mapped) {
-    await prisma.face.createMany({ data, skipDuplicates: true })
-    await prisma.$disconnect()
+    await db.face.createMany({ data, skipDuplicates: true })
   }
 }
 
 const seedSkills = async () => {
   const mapped = mapServantSkills(servantResponse)
   for (let data of mapped) {
-    await prisma.skills.createMany({ data, skipDuplicates: true })
-    await prisma.$disconnect()
+    await db.skills.createMany({ data, skipDuplicates: true })
   }
 }
 
 const seedCommands = async () => {
   const mapped = mapCommands(servantResponse)
   for (let data of mapped) {
-    await prisma.commands.createMany({ data, skipDuplicates: true })
-    await prisma.$disconnect()
+    await db.commands.createMany({ data, skipDuplicates: true })
   }
 }
 
@@ -58,7 +51,7 @@ export const seedCron = async () => {
   await seedFaces()
   await seedSkills()
   await seedCommands()
-  await prisma.$disconnect()
+  db.$disconnect()
 }
 
 const seed = async () => {
@@ -67,7 +60,6 @@ const seed = async () => {
   await seedFaces()
   await seedSkills()
   await seedCommands()
-  await prisma.$disconnect()
 }
 
 seed()
